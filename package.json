@@ -1,0 +1,21 @@
+{
+  "name": "node_projects",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@marcius-capital/binance-api": "^0.2.16",
+    "binance-api-node": "^0.12.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nodemailer": "^6.9.1",
+    "request": "^2.88.2",
+    "ws": "^8.13.0"
+  }
+}
