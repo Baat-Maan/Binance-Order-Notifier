@@ -1,15 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const nodemailer = require('nodemailer');
-const Binance = require('binance-api-node').default;
-const WebSocket = require('ws');
+const { WebsocketClient } = require('binance');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const binanceClient = Binance({
-  apiKey: process.env.BINANCE_API_KEY,
-  apiSecret: process.env.BINANCE_SECRET_KEY,
+const binanceClient = new WebsocketClient({
+  api_key: process.env.BINANCE_API_KEY,
+  api_secret: process.env.BINANCE_SECRET_KEY,
 });
 
 const emailTransporter = nodemailer.createTransport({
@@ -31,12 +30,8 @@ async function sendEmail(subject, text) {
 }
 
 async function start() {
-  const info = await binanceClient.futuresExchangeInfo();
-  const wsUrl = info.url.replace('https', 'wss') + '/ws';
-
-  const ws = new WebSocket(wsUrl);
-
-  ws.on('message', async (message) => {
+  await binanceClient.subscribeUsdFuturesUserDataStream();
+  binanceClient.on('message', async (message) => {
     const data = JSON.parse(message);
 
     if (data.e === 'ORDER_TRADE_UPDATE' && data.o.X === 'FILLED') {
@@ -52,7 +47,7 @@ async function start() {
     }
   });
 
-  ws.on('error', (error) => {
+  binanceClient.on('error', (error) => {
     console.error('WebSocket error:', error);
   });
 }

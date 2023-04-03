@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@marcius-capital/binance-api": "^0.2.16",
+    "binance": "^2.5.3",
     "binance-api-node": "^0.12.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
