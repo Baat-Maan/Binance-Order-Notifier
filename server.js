@@ -32,13 +32,11 @@ async function sendEmail(subject, text) {
 async function start() {
   await binanceClient.subscribeUsdFuturesUserDataStream();
   binanceClient.on('message', async (message) => {
-    const data = JSON.parse(message);
-
-    if (data.e === 'ORDER_TRADE_UPDATE' && data.o.X === 'FILLED') {
-      const symbol = data.o.s;
-      const side = data.o.S;
-      const price = data.o.ap;
-      const quantity = data.o.q;
+    if (message.e === 'ORDER_TRADE_UPDATE' && message.o.X === 'FILLED') {
+      const symbol = message.o.s;
+      const side = message.o.S;
+      const price = message.o.ap;
+      const quantity = message.o.q;
 
       const subject = `Binance Futures Order Filled: ${symbol}`;
       const text = `Your order has been filled:\nSymbol: ${symbol}\nSide: ${side}\nPrice: ${price}\nQuantity: ${quantity}`;
