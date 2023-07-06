@@ -26,7 +26,12 @@ async function sendEmail(subject, text) {
     subject,
     text,
   };
-  await emailTransporter.sendMail(mailOptions);
+  await emailTransporter.sendMail(mailOptions, (err, data) => {
+    if(err)
+    console.log(err);
+
+    else console.log(`email sent successfully with ${data}`);
+  });
 }
 
 async function start() {
